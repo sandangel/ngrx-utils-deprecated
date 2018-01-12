@@ -3,7 +3,7 @@
 This is a [fork of ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 
 ### What in the box?
-- Now you can get rid of const ACTION = '[Action] My Action'... 
+- Now you can get rid of `const ACTION = '[Action] My Action'`... 
 All you have to do is just create Action classes and Union Type for them. This
 is possible thanks to `ofAction` lettable operator.
 
