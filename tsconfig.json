@@ -16,11 +16,9 @@
     "strict": true,
     "sourceMap": true,
     "target": "es5",
-    "types": ["jasmine"],
-    "outDir": "dist"
+    "outDir": "dist",
+    "baseUrl": "."
   },
-  "files": [
-    "public_api.ts"
-  ],
+  "files": ["public_api.ts"],
   "exclude": ["src/spec/**/*"]
 }
