@@ -10,7 +10,7 @@ is possible thanks to `ofAction` lettable operator.
 - No more `this.prop = this.store.select(/* some prop */)` in your Component. You can use `@Select` 
 decorator instead.
 
-> Note: The Select decorator has a limitation of lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
+> Note: The Select decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 
 - How about reducer? You can continue to use your reducer as before, except
 just use normal string instead of enum or constant. Don't worry about auto complete.
