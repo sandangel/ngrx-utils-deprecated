@@ -47,7 +47,9 @@ export function authReducer(state = initialState, action: AuthActions): AuthStat
 ### Install
 
 ```sh
-npm i ngrx-utils --S
+npm i ngrx-utils -S
+# or
+yarn add ngrx-utils
 ```
 
 Then in your app.module.ts (Only Add this code to your AppModule), connect ngrx-utils to your store: 
