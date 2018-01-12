@@ -5,5 +5,5 @@
     "sourceMap": false,
     "declaration": false
   },
-  "files": ["ngrx-utils.ts"]
+  "files": ["ngrx.ts"]
 }

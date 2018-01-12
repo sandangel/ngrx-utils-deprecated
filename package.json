@@ -1,10 +1,11 @@
 {
+  "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngrx-utils",
   "version": "1.0.0",
   "description": "Utilities Library for NgRx",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ng-packagr -p package.json && tsc -p src/bin/tsconfig.json",
+    "build": "ng-packagr -p package.json && tsc -p src/bin/tsconfig.json && chmod +x dist/bin/ngrx.js",
     "test": "jest --watch",
     "publish": "npm publish dist",
     "precommit": "lint-staged",
@@ -74,5 +75,8 @@
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
     "transformIgnorePatterns": ["node_modules/(?!@ngrx)"],
     "modulePathIgnorePatterns": ["dist"]
+  },
+  "bin": {
+    "ngrx": "bin/ngrx.js"
   }
 }

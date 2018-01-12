@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { getActionClasses, getTypeProperty } from '../bin/ngrx-utils';
+import { getActionClasses, collectMetadata } from '../bin/collect-metadata';
 
 describe('ngrx-utils-cli', () => {
   let sourceFile: ts.SourceFile;
@@ -25,17 +25,51 @@ describe('ngrx-utils-cli', () => {
 
     const unionType = actionClasses
       .map(actionClass => {
-        return actionClass.name.getText();
+        return actionClass.name!.getText();
       })
       .join(' | ');
 
     expect(unionType).toBe(unionTypeStr);
   });
 
-  it('should get correct property "type" value', () => {
-    const types = getTypeProperty(sourceFile);
-    console.log(types);
+  it('should get correct property metadata', () => {
+    const metas = collectMetadata(sourceFile);
 
-    expect(true).toBe(true);
+    const metasStr = [
+      {
+        name: 'GetTruckItems',
+        type: `readonly type = '[Truck] Get Truck Items';`
+      },
+      {
+        name: 'GetTruckItemsSuccess',
+        type: `readonly type = '[Truck] Get Truck Items Success';`
+      },
+      {
+        name: 'GetTruckItemsFail',
+        type: `readonly type = '[Truck] Get Truck Items Fail';`
+      },
+      {
+        name: 'RefreshTruckItems',
+        type: `readonly type = '[Truck] Refresh Truck Items';`
+      },
+      {
+        name: 'GetTruckData',
+        type: `readonly type = '[Truck] Get Truck Data';`
+      },
+      {
+        name: 'GetTruckDataSuccess',
+        type: `readonly type = '[Truck] Get Truck Data Success';`
+      },
+      {
+        name: 'GetTruckDataFail',
+        type: `readonly type = '[Truck] Get Truck Data Fail';`
+      },
+      {
+        name: 'RefreshTruckData',
+        type: `readonly type = '[Truck] Refresh Truck Data';`
+      }
+    ];
+
+    expect(metas).toEqual(metasStr);
   });
 });
