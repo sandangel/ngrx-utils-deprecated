@@ -29,11 +29,11 @@ export class RefreshUsers implements Action {
 Then ngrx will automatically generate Union Type for you
 
 ```sh
-# npx ngrx [g | generate] [path/to/action/file]
-npx ngrx g path/to/user.action.ts
+# npx ngrx [g | generate] [a | action] path/to/action
+npx ngrx g a path/to/user.action.ts
 ```
 
-This will generate user.action.generated.ts in the same folder with
+This will generate `user.action.generated.ts` in the same folder with
 `user.action.ts`
 
 ```typescript
@@ -126,12 +126,12 @@ export class MyComponent {
   @Select() myFeature: Observable<any>;
 
   /** use '.' to separate properties to get from store
-      /* equivalent with:
-      /* const getMyFeature = createFeatureSelect('myFeature');
-      /* const getMyProp = createSelect(getMyFeature, state => state.myProp);
-      /* ... In your component class
-      /* this.myProp = store.select(getMyProp);
-      */
+        /* equivalent with:
+        /* const getMyFeature = createFeatureSelect('myFeature');
+        /* const getMyProp = createSelect(getMyFeature, state => state.myProp);
+        /* ... In your component class
+        /* this.myProp = store.select(getMyProp);
+        */
   @Select('myFeature.myProp') myProp: Observable<any>;
 
   /* does same way as store.select('myFeature', 'anotherProp') */

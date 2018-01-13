@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import * as fs from 'fs';
-import * as path from 'path';
+import * as path from '../bin/path-wrapper';
 
 import { getActionClasses, collectMetadata } from '../bin/collect-metadata';
 
@@ -38,38 +38,62 @@ describe('ngrx-utils-cli', () => {
     const metasStr = [
       {
         name: 'GetTruckItems',
-        type: `readonly type = '[Truck] Get Truck Items';`
+        type: '[Truck] Get Truck Items'
       },
       {
         name: 'GetTruckItemsSuccess',
-        type: `readonly type = '[Truck] Get Truck Items Success';`
+        type: '[Truck] Get Truck Items Success'
       },
       {
         name: 'GetTruckItemsFail',
-        type: `readonly type = '[Truck] Get Truck Items Fail';`
+        type: '[Truck] Get Truck Items Fail'
       },
       {
         name: 'RefreshTruckItems',
-        type: `readonly type = '[Truck] Refresh Truck Items';`
+        type: '[Truck] Refresh Truck Items'
       },
       {
         name: 'GetTruckData',
-        type: `readonly type = '[Truck] Get Truck Data';`
+        type: '[Truck] Get Truck Data'
       },
       {
         name: 'GetTruckDataSuccess',
-        type: `readonly type = '[Truck] Get Truck Data Success';`
+        type: '[Truck] Get Truck Data Success'
       },
       {
         name: 'GetTruckDataFail',
-        type: `readonly type = '[Truck] Get Truck Data Fail';`
+        type: '[Truck] Get Truck Data Fail'
       },
       {
         name: 'RefreshTruckData',
-        type: `readonly type = '[Truck] Refresh Truck Data';`
+        type: '[Truck] Refresh Truck Data'
       }
     ];
 
     expect(metas).toEqual(metasStr);
+  });
+});
+
+describe('canonical-path', function() {
+  describe('normalize', function() {
+    it('should return a normalized path only using forward slashes', function() {
+      expect(path.normalize('a/c/../b')).toEqual('a/b');
+      // test on windows
+      // expect(path.normalize('a\\c\\..\\b')).toEqual('a/b');
+    });
+  });
+
+  describe('join', function() {
+    it('should join paths only using forward slashes', function() {
+      expect(path.join('a/b', 'c/d')).toEqual('a/b/c/d');
+      // test on windows
+      // expect(path.join('a\\b', 'c\\d')).toEqual('a/b/c/d');
+    });
+  });
+
+  describe('canonical', function() {
+    it('should return a path with forward slashes', function() {
+      expect(path.canonical('a' + path.sep + 'b' + path.sep + 'c')).toEqual('a/b/c');
+    });
   });
 });

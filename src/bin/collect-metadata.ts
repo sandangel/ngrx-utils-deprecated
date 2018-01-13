@@ -40,7 +40,11 @@ export function collectMetadata(tsSourceFile: ts.SourceFile): ActionMetadata[] {
 
     return {
       name: cls.name!.getText(),
-      type: typeProperty.getText()
+      type: typeProperty
+        .getText()
+        .replace(/(readonly )?type = /, '')
+        .replace(/;$/, '')
+        .replace(/('|")/g, '')
     };
   });
 
