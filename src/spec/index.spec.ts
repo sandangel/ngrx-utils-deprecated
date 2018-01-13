@@ -3,7 +3,7 @@ import { Action as NgRxAction, createFeatureSelector, createSelector, Store as N
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
-describe('actions', () => {
+describe('ngrx-utils', () => {
   interface FooState {
     foo: boolean | null;
     bar?: {

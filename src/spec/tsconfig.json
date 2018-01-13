@@ -1,4 +1,11 @@
 /* This file is for IDE only */
 {
-  "extends": "../../tsconfig.spec.json"
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["jest", "node", "lodash"],
+    "strictNullChecks": false,
+    "sourceMap": false,
+    "declaration": false
+  },
+  "files": ["index.spec.ts"]
 }
