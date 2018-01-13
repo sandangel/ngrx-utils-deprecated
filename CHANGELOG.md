@@ -1,3 +1,7 @@
+# 1.1.2 - Jan 14th, 2018
+
+* fix(cli): ensure action type is valid TS identifier
+
 # 1.1.1 - Jan 13th, 2018
 
 * fix(cli): add missing generate type to command
