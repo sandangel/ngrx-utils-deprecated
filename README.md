@@ -15,8 +15,13 @@ user.action.ts:
 ```typescript
 import { Action } from '@ngrx/store';
 
-export class GetTruckItems implements Action {
+export class GetUsers implements Action {
   readonly type = '[User] Get Users';
+  constructor(public payload: string) {}
+}
+
+export class RefreshUsers implements Action {
+  readonly type = '[User] Refresh Users';
   constructor(public payload: string) {}
 }
 ```
@@ -30,6 +35,12 @@ npx ngrx g path/to/user.action.ts
 
 This will generate user.action.generated.ts in the same folder with
 `user.action.ts`
+
+```typescript
+import { GetUsers, RefreshUsers } from './user.action';
+
+export type UserActions = GetUsers | RefreshUsers;
+```
 
 > This command actually is a modified version of @ngrx/codegen to accept class base action.
 
@@ -115,12 +126,12 @@ export class MyComponent {
   @Select() myFeature: Observable<any>;
 
   /** use '.' to separate properties to get from store
-    /* equivalent with:
-    /* const getMyFeature = createFeatureSelect('myFeature');
-    /* const getMyProp = createSelect(getMyFeature, state => state.myProp);
-    /* ... In your component class
-    /* this.myProp = store.select(getMyProp);
-    */
+      /* equivalent with:
+      /* const getMyFeature = createFeatureSelect('myFeature');
+      /* const getMyProp = createSelect(getMyFeature, state => state.myProp);
+      /* ... In your component class
+      /* this.myProp = store.select(getMyProp);
+      */
   @Select('myFeature.myProp') myProp: Observable<any>;
 
   /* does same way as store.select('myFeature', 'anotherProp') */
