@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngrx-utils",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Utilities Library for NgRx",
   "main": "dist/index.js",
   "scripts": {

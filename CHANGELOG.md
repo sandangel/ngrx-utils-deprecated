@@ -1,3 +1,22 @@
+# 1.1.1 - Jan 13th, 2018
+
+* fix(cli): add missing generate type to command
+
+before:
+
+```sh
+npx ngrx g path/to/action
+```
+
+after:
+
+```sh
+# npx ngrx [g | generate] [a | action] path/to/action
+npx ngrx g a path/to/action
+```
+
+* fix(cli): generate right file on windows
+
 # 1.1.0 - Jan 13th, 2018
 
 * feat(cli): Introduce ngrx command to generate action boilerplate. Closes #1
