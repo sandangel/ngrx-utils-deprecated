@@ -2,7 +2,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["jest", "node", "lodash"],
+    "types": ["jest", "node", "lodash", "prettier"],
     "strictNullChecks": false,
     "sourceMap": false,
     "declaration": false

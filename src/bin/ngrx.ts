@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { generateAction, showUsage } from './printer';
+import { generateFileOutput, showUsage } from './printer';
 const cmd = process.argv[2];
 
 if ((cmd && cmd === 'g') || cmd === 'generate') {
@@ -8,8 +8,14 @@ if ((cmd && cmd === 'g') || cmd === 'generate') {
   switch (generateType) {
     case 'a':
     case 'action': {
-      const sourceFilePath = process.argv[4];
-      generateAction(sourceFilePath);
+      const option = process.argv[4] === '-r' || process.argv[4] === '--reducer' ? true : false;
+      const sourceFilePath = option ? process.argv[5] : process.argv[4];
+
+      if (!sourceFilePath) {
+        console.log('You must specify the path to action declaration file');
+        process.exit(1);
+      }
+      generateFileOutput(sourceFilePath, option);
       break;
     }
     default: {

@@ -1,13 +1,12 @@
 {
   "$schema": "./node_modules/ng-packagr/package.schema.json",
   "name": "ngrx-utils",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "Utilities Library for NgRx",
   "main": "dist/index.js",
   "scripts": {
     "build": "ng-packagr -p package.json && tsc -p src/bin/tsconfig.json && chmod +x dist/bin/ngrx.js",
     "test": "jest --watch",
-    "publish": "npm publish dist",
     "precommit": "lint-staged",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
@@ -37,6 +36,7 @@
     "@types/jest": "^22.0.1",
     "@types/lodash": "^4.14.92",
     "@types/node": "^9.3.0",
+    "@types/prettier": "^1.9.0",
     "husky": "^0.14.3",
     "jest": "^22.0.6",
     "lint-staged": "^6.0.0",
@@ -51,7 +51,7 @@
   },
   "ngPackage": {
     "lib": {
-      "entryFile": "public_api.ts"
+      "entryFile": "src/public_api.ts"
     }
   },
   "lint-staged": {
@@ -78,5 +78,9 @@
   },
   "bin": {
     "ngrx": "bin/ngrx.js"
+  },
+  "dependencies": {
+    "prettier": "^1.10.2",
+    "lodash": "^4.17.4"
   }
 }

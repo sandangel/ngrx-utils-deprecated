@@ -1,8 +1,10 @@
 import * as ts from 'typescript';
 import * as fs from 'fs';
 import * as path from '../bin/path-wrapper';
+import * as prettier from 'prettier';
 
 import { getActionClasses, collectMetadata } from '../bin/collect-metadata';
+import { createReducerOutput, createActionOutput, parseActionType } from '../bin/printer';
 
 describe('ngrx-utils-cli', () => {
   let sourceFile: ts.SourceFile;
@@ -71,6 +73,18 @@ describe('ngrx-utils-cli', () => {
     ];
 
     expect(metas).toEqual(metasStr);
+  });
+
+  it('should generate correct reducer function', () => {
+    const metas = collectMetadata(sourceFile);
+    const [importStatement, typeUnion] = createActionOutput('sample.action', 'Truck', metas);
+    const { category } = parseActionType(metas[0].type);
+    const ast = createReducerOutput(category, typeUnion.name, metas);
+    const printer = ts.createPrinter({ newLine: ts.NewLineKind.LineFeed });
+    const resultFile = ts.createSourceFile('sample.reducer.ts', '', ts.ScriptTarget.ES2015, false, ts.ScriptKind.TS);
+    const sourceText = printer.printNode(ts.EmitHint.Unspecified, ast, resultFile);
+    console.log(prettier.format(sourceText, { singleQuote: true, printWidth: 120 }));
+    expect(sourceText).toMatch(/.*default: return state;.*/);
   });
 });
 

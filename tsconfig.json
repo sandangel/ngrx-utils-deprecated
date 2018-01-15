@@ -19,6 +19,6 @@
     "outDir": "dist",
     "baseUrl": "."
   },
-  "files": ["public_api.ts"],
+  "files": ["index.ts"],
   "exclude": ["src/spec/**/*"]
 }
