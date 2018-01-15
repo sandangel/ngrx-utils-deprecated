@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "lodash"],
+    "types": ["node", "lodash", "prettier"],
     "sourceMap": false,
     "declaration": false
   },

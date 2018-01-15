@@ -35,7 +35,7 @@ export function collectMetadata(tsSourceFile: ts.SourceFile): ActionMetadata[] {
     });
 
     if (typeProperty === undefined) {
-      throw new Error(`Could not find "type" property on class "${cls.name && cls.name.getText()}"`);
+      throw new Error(`Could not find "type" property on class "${cls.name!.getText()}"`);
     }
 
     return {
