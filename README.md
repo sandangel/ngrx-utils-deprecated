@@ -27,7 +27,7 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
   }
   ```
 
-  . When using ngrx/effect, You will have to cast type to have the correct action type because ofType only accept string. This seems acceptable, but sometimes your code look awful when there are 3 or 4 actions with same effects:
+  * When using ngrx/effect, You will have to cast type to have the correct action type because ofType only accept string. This seems acceptable, but sometimes your code look awful when there are 3 or 4 actions with same effects:
 
   ```typescript
   @Effect()
@@ -40,7 +40,7 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
     )
   ```
 
-  According to [ngrx/codegen proposal](https://paper.dropbox.com/doc/ngrxcodegen-Proposal-DhD934mmHfqTljpntnqJ3), to have a nice type inference in your effect ofType and get rid of this type casting, ngrx/codegen will use interface base Action, and generate a lookup type, which is another enum includes all action type value:
+  * According to [ngrx/codegen proposal](https://paper.dropbox.com/doc/ngrxcodegen-Proposal-DhD934mmHfqTljpntnqJ3), to have a nice type inference in your effect ofType and get rid of this type casting, ngrx/codegen will use interface base Action, and generate a lookup type, which is another enum includes all action type value:
 
   ```typescript
   interface LoginAction extends Action {
@@ -72,7 +72,7 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
 
   We really feel this is like duplicating your action type enum :(
 
-. And with all of this, you will have very nice type inference and safe type checking but the trade off is when your app scale up, a **huge** amount of boilerplate will be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is "just work". Since ngrx-utils 1.2.0, ofAction operator will smartly infer all Action type and you won't have to use type cast anymore.
+  * And with all of this, you will have very nice type inference and safe type checking but the trade off is when your app scale up, a **huge** amount of boilerplate will be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is "just work". Since ngrx-utils 1.2.0, ofAction operator will smartly infer all Action type and you won't have to use type cast anymore.
 
 ![picture](assets/inference.gif)
 
@@ -110,15 +110,15 @@ export class RefreshUsers implements Action {
 }
 ```
 
-Then use ngrx command to generate Union Type for you. Since version 1.2.0, we have added support optionally generate reducer function with `-r` option.
+* Then use ngrx command to generate Union Type for you. Since version 1.2.0, we have added support optionally generate reducer function with `-r` option.
 
 ```sh
 # npx ngrx [g | generate] [a | action] [-r | --reducer] path/to/action
 npx ngrx g a -r path/to/user.action.ts
 ```
 
-This will generate `user.action.generated.ts` in the same folder with
-`user.action.ts`
+* This will generate `user.action.generated.ts` in the same folder with
+  `user.action.ts`
 
 ```typescript
 import { GetUsers, RefreshUsers } from './user.action';
@@ -142,7 +142,7 @@ export function userReducer(state: any, action: UserActions): any {
 
 > This command actually is a modified version of @ngrx/codegen to accept class base action.
 
-* `@Select` decorator. This is always in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component. You now can use `@Select` decorator instead as [describe below](README.md#L180)).
+* `@Select` decorator. This is always in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select` decorator instead as [describe below](README.md#L180)).
 
 > Note: The Select decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 
@@ -259,7 +259,7 @@ getUser$ = this.actions$.pipe(
 );
 ```
 
-after: remove to type casting
+after: remove the type casting
 
 ```typescript
 @Effect()
