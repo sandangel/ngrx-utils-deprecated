@@ -1,11 +1,137 @@
 # NgRx Utils
 
-This is a [fork of ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
+This is a library provide cli tools, util functions to help reduce boilerplate and speedup your devs when working with ngrx and use
+class based Action approacch.
+
+[Inspired from ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
+
+After version 1.2.0, We have decided to move codebase to monorepo for a bigger project,
+with full features cli, and support more store util functions, operators...
+
+You can track the work of new project add https://github.com/ngrx-utils/ngrx-utils
 
 ### What in the box?
 
-* Now you can get rid of `const ACTION = '[Action] My Action'`...
-  . This is possible thanks to `ofAction` lettable operator.
+* Use ofAction pipeable operator accept class based actions as parameters. Why this is better than ofType, default operator from @ngrx/effects?
+  . Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and
+  scaffolding enum action, reducer..., it will also add a fairly large amount lines of code into your codebase.
+  Using const or enum to store action type like this:
+
+  ```typescript
+  export enum AuthActionType {
+    Login = '[Auth] Login',
+    Logout = '[Auth] Logout',
+    LoginSuccess = '[Auth] Login Success',
+    LoginFail = '[Auth] Login Fail',
+    RetrieveAuth = '[Auth] Retrieve Auth',
+    RetrieveAuthSuccess = '[Auth] Retrieve Auth Success',
+    RetrieveAuthFail = '[Auth] Retrieve Auth Fail'
+  }
+  ```
+
+  . When using ngrx/effect, You will have to cast type to have the correct action type because ofType only accept string. This seems good, but sometimes your code look awful when there are 3 or 4 actions with same effects:
+
+  ```typescript
+  @Effect()
+  getCoilItems$ = this.actions$
+    .ofType<GetEnvItems | GetAccItems | RefreshEnvItems | RefreshAccItems>(
+      AccActionType.GetAccItems,
+      AccActionType.RefreshAccItems,
+      EnvActionType.GetEnvItems,
+      EnvActionType.RefreshEnvItems,
+    )
+  ```
+
+  According to [ngrx/codegen proposal](https://paper.dropbox.com/doc/ngrxcodegen-Proposal-DhD934mmHfqTljpntnqJ3), to have a nice type infer in your effect and get rid of this type casting, ngrx/codegen will use interface base Action, and generate a lookup type, which is another enum includes all action type value:
+
+  ```typescript
+  interface LoginAction extends Action {
+    type: '[Auth] Login';
+    payload: any;
+  }
+
+  /*...*/
+
+  export type AuthActions =
+    | LoginAction
+    | LogoutAction
+    | LoginSuccess
+    | LoginFail
+    | Retrieve
+    | RetrieveSuccess
+    | RetrieveFail;
+
+  export type AuthActionLookup = {
+    '[Auth] Login': LoginAction;
+    '[Auth] Logout': LogoutAction;
+    '[Auth] Login Success': LoginSuccess;
+    '[Auth] Login Fail': LoginFail;
+    '[Auth] Retrieve Auth': Retrieve;
+    '[Auth] Retrieve Auth Success': RetrieveSuccess;
+    '[Auth] Retrieve Auth Fail': RetrieveFail;
+  };
+  ```
+
+. And with all of this, when your app scale up, a `nightmare` large amount of boilerplate will be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate. Since ngrx-utils 1.2.0, ofAction operator will smartly infer all Action type and you won't have to use type cast anymore.
+before:
+
+```typescript
+@Effect()
+getUser$ = this.actions$.pipe(
+  ofAction<GetUser | RefreshUser>(GetUser, RefreshUser),
+  /* cast action type when there are multi actions */
+  switchMap(action =>
+    this.myService
+      .getAll(action.payload)
+      .pipe(map(res => new GetUserSuccess(res)), catchError(err => of(new GetUserFail(err))))
+  )
+);
+```
+
+after:
+
+```typescript
+@Effect()
+getUser$ = this.actions$.pipe(
+  ofAction(GetUser, RefreshUser),
+  switchMap(action /* action will have type GetUser | RefreshUser */ =>
+    this.myService
+      .getAll(action.payload)
+      .pipe(map(res => new GetUserSuccess(res)), catchError(err => of(new GetUserFail(err))))
+  )
+);
+```
+
+* How about reducer? Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and
+  nice autocompletion feature, we now can have autocomplete action type without an enum or const.
+  If you are using VSCode, add this config to your settings to show autocomplete within string quote:
+
+```json
+"editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+}
+```
+
+Then when you type `case ''`, and trigger quick suggestion shortcut `Ctrl + Space`.
+
+```typescript
+export function authReducer(state = initialState, action: AuthActions): AuthState {
+  switch (action.type) {
+    case '[Auth] Login':
+      return {
+        ...state,
+        loading: true,
+        loaded: false
+      };
+    /* ... */
+    default:
+      return state;
+  }
+}
+```
+
 * Since version 1.1.0, ngrx-utils come with an builtin ngrx command to
   generate all boilerplate for you. All you have to do is just create Action Class declaration file
   like this:
@@ -26,11 +152,12 @@ export class RefreshUsers implements Action {
 }
 ```
 
-Then ngrx will automatically generate Union Type for you
+Then ngrx will automatically generate Union Type for you. Since version 1.2.0, we have added support optionally
+generate reducer function with `-r` option in command.
 
 ```sh
-# npx ngrx [g | generate] [a | action] path/to/action
-npx ngrx g a path/to/user.action.ts
+# npx ngrx [g | generate] [a | action] [-r | --reducer] path/to/action
+npx ngrx g a -r path/to/user.action.ts
 ```
 
 This will generate `user.action.generated.ts` in the same folder with
@@ -40,6 +167,20 @@ This will generate `user.action.generated.ts` in the same folder with
 import { GetUsers, RefreshUsers } from './user.action';
 
 export type UserActions = GetUsers | RefreshUsers;
+
+// with -r option
+export function userReducer(state: any, action: UserActions): any {
+  case '[User] Get User':
+    return {
+      ...state
+    };
+  case '[User] Refresh User':
+    return {
+      ...state
+    };
+  default:
+    return state;
+}
 ```
 
 > This command actually is a modified version of @ngrx/codegen to accept class base action.
@@ -48,36 +189,6 @@ export type UserActions = GetUsers | RefreshUsers;
   decorator instead.
 
 > Note: The Select decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
-
-* How about reducer? You can continue to use your reducer as before, except
-  just use normal string instead of enum or constant. Don't worry about auto complete.
-  If you are using VSCode, add this config to your settings to show auto complete within string quote:
-
-```json
-"editor.quickSuggestions": {
-    "other": true,
-    "comments": true,
-    "strings": true
-}
-```
-
-Then when you type `case '['`, the cosmpletion will show up.
-
-```typescript
-export function authReducer(state = initialState, action: AuthActions): AuthState {
-  switch (action.type) {
-    case '[Auth] Login':
-      return {
-        ...state,
-        loading: true,
-        loaded: false
-      };
-    /* ... */
-    default:
-      return state;
-  }
-}
-```
 
 * Only has `@angular/core, @ngrx/store, @ngrx/effects, rxjs` as dependencies.
 
@@ -121,17 +232,18 @@ This looks like:
 
 ```typescript
 export class MyComponent {
-  /* use property name when there is no specified */
-  /* same as this.myFeature = store.select('myFeature') */
+  /** use property name when there is no specified
+   * same as this.myFeature = store.select('myFeature')
+   */
   @Select() myFeature: Observable<any>;
 
   /** use '.' to separate properties to get from store
-        /* equivalent with:
-        /* const getMyFeature = createFeatureSelect('myFeature');
-        /* const getMyProp = createSelect(getMyFeature, state => state.myProp);
-        /* ... In your component class
-        /* this.myProp = store.select(getMyProp);
-        */
+   * equivalent with:
+   * const getMyFeature = createFeatureSelect('myFeature');
+   * const getMyProp = createSelect(getMyFeature, state => state.myProp);
+   * ... In your component class
+   * this.myProp = store.select(getMyProp);
+   */
   @Select('myFeature.myProp') myProp: Observable<any>;
 
   /* does same way as store.select('myFeature', 'anotherProp') */
@@ -164,19 +276,18 @@ export class MyEffects {
 
   @Effect()
   getUser$ = this.actions$.pipe(
-    ofAction<GetUser | RefreshUser>(GetUser, RefreshUser),
-    /* cast action type when there are multi actions */
-    switchMap(action =>
+    ofAction(GetUser, RefreshUser),
+    /* dont have to cast action type when there are multi actions */
+    switchMap((action) /* GetUser | RefreshUser */ =>
       this.myService
         .getAll(action.payload)
-        .pipe(map(res => new GetUserSuccess(res)), catchError(err => of(new GetUserFail(err))))
-    )
+        .pipe(map(res => new GetUserSuccess(res)), catchError(err => of(new GetUserFail(err)))))
   );
 
   @Effect()
   getUserSuccess$ = this.actions$.pipe(
     ofAction(GetUserSuccess),
-    /* automatically infer GetUserSuccess action type when there is only 1 */
+    /* automatically infer GetUserSuccess action type */
     map(action => new RouterGo({ path: [action.payload] }))
   );
 }
