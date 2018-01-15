@@ -1,3 +1,7 @@
+# 1.1.3 - Jan 15th, 2018
+
+* fix(store-utils): fix export at top level
+
 # 1.1.2 - Jan 14th, 2018
 
 * fix(cli): ensure action type is valid TS identifier

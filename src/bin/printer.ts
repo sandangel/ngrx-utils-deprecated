@@ -38,7 +38,7 @@ function parseActionType(type: string) {
   }
 
   return {
-    category: (result[1] as string).replace(/(\.|-)/, ''),
+    category: (result[1] as string).replace(/(\.|-|\s)/, ''),
     name: result[2] as string
   };
 }
