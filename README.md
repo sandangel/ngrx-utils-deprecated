@@ -8,7 +8,7 @@ After version 1.2.0, We have decided to move codebase to monorepo for a bigger p
 
 You can track the work of new project at https://github.com/ngrx-utils/ngrx-utils
 
-### What in the box?
+## What in the box
 
 * ofAction pipeable operator. It will accept class based actions as parameters. Why this is better than ofType, default operator from @ngrx/effects?
   . Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and
@@ -273,7 +273,7 @@ getUser$ = this.actions$.pipe(
 );
 ```
 
-### What's different with ngrx-actions?
+### What's different with ngrx-actions
 
 * Only provide `@Select` and `ofAction` pipeable operator. We really feel that `@Store`, `createReducer` and `@Action` from ngrx-actions increase much more boilerplate when using it in our app.
 * No need reflect-metadata as a dependency
