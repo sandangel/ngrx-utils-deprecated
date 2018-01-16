@@ -12,8 +12,11 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
 
 ## What in the box
 
-* ofAction pipeable operator. It will accept class based actions as parameters. Why this is better than ofType, default operator from @ngrx/effects?
-  . Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and
+### ofAction pipeable operator. 
+* It will accept class based actions as parameters. Why this is better than ofType, default operator from @ngrx/effects?
+
+
+  * Although ngrx/schematics and ngrx/codegen will give you tools to automatically generate some boilerplate and
   scaffolding enum action, reducer... for your app, it will also add a fairly large amount lines of code into your codebase.
   Using const or enum to store action type like this:
 
@@ -78,7 +81,11 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
 
 ![picture](assets/inference.gif)
 
-* How about reducer? Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
+
+  * Another nice thing is you can use `action instanceof GetUser` type guard with class based action, which is a nice feature you won't have when using interface based action approach.
+
+### Reducer is __just work__ 
+* Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
   If you are using VSCode, add this config to your settings to show suggestions within string quote:
 
 ```json
@@ -143,7 +150,8 @@ export function userReducer(state: any, action: UserActions): any {
 
 > This command actually is a modified version of @ngrx/codegen to accept class base action.
 
-* `@Select` decorator. This is always in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select` decorator instead as [describe below](README.md#L180)).
+### `@Select` decorator. 
+* This has always been in the wish list of developers in the first days of ngrx. No more `this.prop = this.store.select(/* some prop */)` in your Component, now you can use `@Select` decorator instead as [describe below](README.md#L180)).
 
 > Note: The Select decorator has a limitation is it lack of type checking due to [TypeScript#4881](https://github.com/Microsoft/TypeScript/issues/4881).
 
