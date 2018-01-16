@@ -42,7 +42,7 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
     )
   ```
 
-  * According to [ngrx/codegen proposal](https://paper.dropbox.com/doc/ngrxcodegen-Proposal-DhD934mmHfqTljpntnqJ3), to have a nice type inference in your effect ofType and get rid of this type casting, ngrx/codegen will use interface base Action, and generate a lookup type, which is another enum includes all action type value:
+  * According to [ngrx/codegen proposal](https://paper.dropbox.com/doc/ngrxcodegen-Proposal-DhD934mmHfqTljpntnqJ3), to have a nice type inference in your effect ofType and get rid of this type casting, ngrx/codegen will use interface base Action, and generate a lookup type, which is includes all action type value:
 
   ```typescript
   interface LoginAction extends Action {
