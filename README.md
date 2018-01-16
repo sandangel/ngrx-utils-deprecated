@@ -82,7 +82,7 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
 ![picture](assets/inference.gif)
 
 
-  * Another nice thing is you can use `action instanceof GetUser` type guard with class based action, which is a nice feature you won't have when using interface based action approach.
+  * Another nice thing is you can use `action instanceof GetUser` type guard with class based action, which has better type inference comparing with using interface based action approach.
 
 ### Reducer is __just work__ 
 * Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
