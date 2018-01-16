@@ -2,6 +2,8 @@
 
 This is a library provide cli tools, util functions, decorators to help reduce boilerplate and speedup your devs when working with ngrx using class based Action approach.
 
+> The latest stable version is 1.2.1, you should use it instead of 1.2.0, which is will not work because I have published wrong folder.
+
 Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 
 After version 1.2.0, We have decided to move codebase to monorepo for a bigger project, with full features cli, and support more store util functions, operators...
@@ -72,12 +74,11 @@ You can track the work of new project at https://github.com/ngrx-utils/ngrx-util
 
   We really feel this is like duplicating your action type enum :(
 
-  * And with all of this, you will have very nice type inference and safe type checking but the trade off is when your app scale up, a **huge** amount of boilerplate will be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is "just work". Since ngrx-utils 1.2.0, ofAction operator will smartly infer all Action type and you won't have to use type cast anymore.
+  * And with all of this, although you will have very nice type inference and static type checking but the trade off is when your app scale up, a **huge** amount of boilerplate will also be generated too. Thanks to `ofAction` pipeable operator, You now can get rid of all those boilerplate and type inference is __just work__. Since ngrx-utils 1.2.0, ofAction operator will smartly infer all Action type and you won't have to use type cast anymore.
 
 ![picture](assets/inference.gif)
 
-* How about reducer? Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and
-  nice auto completion feature, we now can have auto complete action type without an enum or const.
+* How about reducer? Do I have to type string manually in switch block? Don't worry about it. Thanks to smart infer type of typescript and nice auto completion feature, we now can have auto complete action type without an enum or const.
   If you are using VSCode, add this config to your settings to show suggestions within string quote:
 
 ```json
@@ -110,7 +111,7 @@ export class RefreshUsers implements Action {
 }
 ```
 
-* Then use ngrx command to generate Union Type for you. Since version 1.2.0, we have added support optionally generate reducer function with `-r` option.
+* Then use ngrx command to generate Union Type for you. Since version 1.2.0, we have added support optionally generate reducer function with `-r` option and all the boilerplate will be nicely formatted with prettier before saving to file.
 
 ```sh
 # npx ngrx [g | generate] [a | action] [-r | --reducer] path/to/action
