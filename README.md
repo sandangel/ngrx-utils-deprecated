@@ -1,4 +1,8 @@
-# NgRx Utils
+# NgRx Utils - Deprecated in favor of [https://github.com/ngrx-utils/ngrx-utils](monorepo)
+
+After version 1.2.0, We have decided to move codebase to monorepo for a bigger project, with full features cli, and support more store util functions, operators...
+
+You can track the work of new project at https://github.com/ngrx-utils/ngrx-utils
 
 This is a library provide cli tools, util functions, decorators to help reduce boilerplate and speedup your devs when working with ngrx using class based Action approach.
 
@@ -6,9 +10,7 @@ This is a library provide cli tools, util functions, decorators to help reduce b
 
 Inspired from [ngrx-actions](https://github.com/amcdnl/ngrx-actions) by @amcdnl
 
-After version 1.2.0, We have decided to move codebase to monorepo for a bigger project, with full features cli, and support more store util functions, operators...
 
-You can track the work of new project at https://github.com/ngrx-utils/ngrx-utils
 
 ## What in the box
 
