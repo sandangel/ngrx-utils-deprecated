@@ -1,4 +1,4 @@
-# NgRx Utils - Deprecated in favor of [https://github.com/ngrx-utils/ngrx-utils](monorepo)
+# NgRx Utils - Deprecated in favor of https://github.com/ngrx-utils/ngrx-utils
 
 After version 1.2.0, We have decided to move codebase to monorepo for a bigger project, with full features cli, and support more store util functions, operators...
 
